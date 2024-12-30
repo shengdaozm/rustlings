@@ -1,12 +1,17 @@
-// TODO: Fix the compiler error by adding one or two characters.
+// macros4.rs
+//
+// Execute `rustlings hint macros4` or use the `hint` watch subcommand for a
+// hint.
+
+//宏定义的参数匹配
 #[rustfmt::skip]
 macro_rules! my_macro {
-    () => {
-        println!("Check out my macro!");
-    }
     ($val:expr) => {
         println!("Look at this other macro: {}", $val);
-    }
+    };
+    () => {
+        println!("Check out my macro!");
+    }; 
 }
 
 fn main() {

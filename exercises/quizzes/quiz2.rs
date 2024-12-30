@@ -1,3 +1,5 @@
+// quiz2.rs
+//
 // This is a quiz for the following sections:
 // - Strings
 // - Vecs
@@ -11,13 +13,17 @@
 // - Uppercase the string
 // - Trim the string
 // - Append "bar" to the string a specified amount of times
-//
 // The exact form of this will be:
-// - The input is going to be a Vector of 2-length tuples,
+// - The input is going to be a Vector of a 2-length tuple,
 //   the first element is the string, the second one is the command.
-// - The output element is going to be a vector of strings.
+// - The output element is going to be a Vector of strings.
+//
+// No hints this time!
 
-enum Command {
+// 重点考察match和字符串的相关用法
+// 对引用&等用法现需要熟悉
+
+pub enum Command {
     Uppercase,
     Trim,
     Append(usize),
@@ -26,38 +32,53 @@ enum Command {
 mod my_module {
     use super::Command;
 
-    // TODO: Complete the function as described above.
-    // pub fn transformer(input: ???) -> ??? { ??? }
+    // TODO: Complete the function signature!
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+        // TODO: Complete the output declaration!
+        let mut output: Vec<String> = vec![];
+        for (string, command) in input.iter() {
+            // TODO: Complete the function body. You can do it!
+            match command {
+                Command::Uppercase => {
+                    output.push(string.to_uppercase());
+                }
+                Command::Trim => {
+                    output.push(string.trim().to_string());
+                }
+                Command::Append(cnt) => {
+                    let mut back = String::new();
+                    for _ in 0..*cnt {
+                        back.push_str("bar");
+                    }
+                    output.push(string.to_owned() + &back);
+                }
+            }
+        }
+        output
+    }
 }
 
 fn main() {
-    // You can optionally experiment here.
+    
 }
 
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    // use ???;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
     fn it_works() {
-        let input = vec![
-            ("hello".to_string(), Command::Uppercase),
-            (" all roads lead to rome! ".to_string(), Command::Trim),
-            ("foo".to_string(), Command::Append(1)),
-            ("bar".to_string(), Command::Append(5)),
-        ];
-        let output = transformer(input);
-
-        assert_eq!(
-            output,
-            [
-                "HELLO",
-                "all roads lead to rome!",
-                "foobar",
-                "barbarbarbarbarbar",
-            ]
-        );
+        let output = transformer(vec![
+            ("hello".into(), Command::Uppercase),
+            (" all roads lead to rome! ".into(), Command::Trim),
+            ("foo".into(), Command::Append(1)),
+            ("bar".into(), Command::Append(5)),
+        ]);
+        assert_eq!(output[0], "HELLO");
+        assert_eq!(output[1], "all roads lead to rome!");
+        assert_eq!(output[2], "foobar");
+        assert_eq!(output[3], "barbarbarbarbarbar");
     }
 }
